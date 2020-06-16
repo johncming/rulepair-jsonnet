@@ -10,7 +10,7 @@
     new(name, metrics=[]): self + { name: name },
   },
   rule:: {
-    new(metric, label=''):: self.withFirst(metric, label).withSecond(metric, label),
+    new(metric, label=''):: [self.withFirst(metric, label), self.withSecond(metric, label)],
     withFirst(metric, label):: self + self.mixin.first.new(metric, label),
     withSecond(metric, label):: self + self.mixin.second.new(metric, label),
     mixin:: {
