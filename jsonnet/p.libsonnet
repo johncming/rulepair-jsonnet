@@ -16,15 +16,16 @@
         else self.withRecordLabel(metric, label).withExprLabel(metric, label),
         withRecord(metric):: { record: std.join('::', [$._config.prefix, metric]) },
         withRecordLabel(metric, label):: { record: std.join('::', [$._config.prefix, metric, label]) },
-        withExpr(metric):: 'sum(%(metric)s) by (env)' % { metric: metric },
-        withExprLabel(metric, label):: 'sum(%(metric)s) by (%(label)s, env)' % { metric: metric, label: label },
+        withExpr(metric):: { expr: 'sum(%(metric)s) by (env)' % { metric: metric } },
+        withExprLabel(metric, label):: { expr: 'sum(%(metric)s) by (%(label)s, env)' % { metric: metric, label: label } },
       },
       second:: {
         new(metric, label=''):: self.withRecord(metric) + if label == ''
         then self.withExpr(metric)
         else self.withExprLabel(metric, label),
-        withRecord(metric):: '%(metric)s::result' % { metric: metric },
-        withExpr(metric):: '%(metric)s{env:%(env1)s} == bool ignoring (env) {%(metric)s{env:%(env2)s}' % { metric: metric, env1: $._config.env.left, env2: $._config.env.right },
+        withRecord(metric):: { record: '%(metric)s::result' % { metric: metric } },
+        withExpr(metric):: { expr: '%(metric)s{env:%(env1)s} == bool ignoring (env) {%(metric)s{env:%(env2)s}' % { metric: metric, env1: $._config.env.left, env2: $._config.env.right } },
+        withExprLabel(metric, label):: { expr: 'count(sum(%(metric)s) by (%(label)s)) == bool 1' % { metric: metric, label: label } },
       },
     },
   },
