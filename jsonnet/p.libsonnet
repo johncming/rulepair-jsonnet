@@ -10,7 +10,7 @@
     new(name):: self + { name: name },
     addRules(rules):: self + if std.type(rules) == 'array'
     then { rules+: [item for rule in rules for item in rule] }
-    else { rules+: rules },
+    else error 'need rule pair',
   },
   rule:: {
     new(metric, label='')::
