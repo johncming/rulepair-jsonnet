@@ -8,6 +8,7 @@
   },
   group:: {
     new(name, metrics=[]): self + { name: name },
+    addRules(rules):: self + { rules+: rules },
   },
   rule:: {
     new(metric, label='')::
