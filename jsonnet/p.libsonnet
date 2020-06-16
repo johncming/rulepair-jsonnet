@@ -7,8 +7,10 @@
     },
   },
   group:: {
-    new(name, metrics=[]): self + { name: name },
-    addRules(rules):: self + { rules+: rules },
+    new(name):: self + { name: name },
+    addRules(rules):: self + if std.type(rules) == 'array'
+    then { rules+: [item for rule in rules for item in rule] }
+    else { rules+: rules },
   },
   rule:: {
     new(metric, label='')::

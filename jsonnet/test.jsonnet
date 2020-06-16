@@ -1,6 +1,7 @@
-local prom = import 'p.libsonnet';
+local p = import 'p.libsonnet';
 
 {
-  rule_without_label: prom.rule.new('up'),
-  rule_with_label: prom.rule.new('up', 'host'),
+  local r1 = p.rule.new('up'),
+  local r2 = p.rule.new('down'),
+  groups: p.group.new('test').addRules([r1, r2]),
 }
