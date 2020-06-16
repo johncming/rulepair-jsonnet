@@ -5,4 +5,12 @@
   group:: {
     new(name, metrics=[]): self + { name: name },
   },
+  rule:: {
+    first:: {
+
+    },
+    second:: {
+
+    },
+  },
 }
