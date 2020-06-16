@@ -1,6 +1,10 @@
 {
   _config:: {
     prefix: 'envdiff',
+    env: {
+      left: 'test',
+      right: 'prod',
+    },
   },
   group:: {
     new(name, metrics=[]): self + { name: name },
