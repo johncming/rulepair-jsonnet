@@ -16,7 +16,11 @@
       withExprLabel(metric, label):: 'sum(%(metric)s) by (%(label)s, env)' % { metric: metric, label: label },
     },
     second:: {
-
+      new(metric, label=''):: self.withRecord(metric) + if label == ''
+      then self.withExpr(metric)
+      else self.withExprLabel(metric, label),
+      withRecord(metric):: '%(metric)s::result' % { metric: metric },
+      withExpr(metric):: '%(metric)s{env:%(env1)s} == bool ignoring (env) {%(metric)s{env:%(env2)s}' % { metric: metric, env1: $._config.env.left, env2: $._config.env.right },
     },
   },
 }
